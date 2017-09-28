@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import chai from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
@@ -8,7 +26,7 @@ import * as bundle from '../../../../frameworks/legacy/app/bundle'
 import * as register from '../../../../frameworks/legacy/app/register'
 import { removeWeexPrefix } from '../../../../frameworks/legacy/util'
 import { Document } from '../../../../runtime/vdom'
-import Listener from '../../../../runtime/listener'
+import Listener from '../../../../runtime/bridge/Listener'
 
 describe('parsing a bundle file', () => {
   const componentTemplate = {
@@ -344,70 +362,6 @@ describe('parsing a bundle file', () => {
           .to.deep.equal(template)
       })
     })
-
-    describe.skip('render', () => {
-      it('a component', () => {
-        app.render('main')
-
-        expect(callTasksSpy.callCount).to.be.equal(4)
-
-        expect(readySpy.calledTwice).to.be.true
-        expect(readySpy.firstCall.args[0].a).to.be.equal('b')
-        expect(readySpy.secondCall.args[0].b).to.be.equal('c')
-
-        const task1 = callTasksSpy.firstCall.args[0][0]
-        expect(task1).to.deep.equal({
-          module: 'dom',
-          method: 'createBody',
-          args: [{
-            type: 'container',
-            ref: '_root',
-            attr: {},
-            style: {}
-          }]
-        })
-
-        const task2 = callTasksSpy.secondCall.args[0][0]
-        expect(task2).to.deep.equal({
-          module: 'dom',
-          method: 'addElement',
-          args: ['_root', {
-            type: 'text',
-            ref: app.doc.body.children[0].ref,
-            attr: {
-              value: 'Hello World'
-            },
-            style: {}
-          }, -1]
-        })
-
-        const task3 = callTasksSpy.thirdCall.args[0][0]
-        expect(task3).to.deep.equal({
-          module: 'dom',
-          method: 'addElement',
-          args: ['_root', {
-            type: 'container',
-            ref: app.doc.body.children[1].ref,
-            attr: {},
-            style: {}
-          }, -1]
-        })
-
-        const task4 = callTasksSpy.getCall(3).args[0][0]
-        expect(task4).to.deep.equal({
-          module: 'dom',
-          method: 'addElement',
-          args: [app.doc.body.children[1].ref, {
-            type: 'text',
-            ref: app.doc.body.children[1].children[0].ref,
-            attr: {
-              value: 'Hello World'
-            },
-            style: {}
-          }, -1]
-        })
-      })
-    })
   })
 
   describe('use define/require(backward compatibility)', () => {
@@ -449,38 +403,6 @@ describe('parsing a bundle file', () => {
         })
         expect(app.customComponentMap['main'].template)
           .to.deep.equal(componentTemplate)
-      })
-    })
-
-    describe.skip('require(old)', () => {
-      it('a component', () => {
-        app.require('main')()
-
-        expect(callTasksSpy.calledTwice).to.be.true
-
-        const task1 = callTasksSpy.firstCall.args[0][0]
-        expect(task1.module).to.be.equal('dom')
-        expect(task1.method).to.be.equal('createBody')
-        expect(task1.args[0]).to.deep.equal({
-          type: 'container',
-          ref: '_root',
-          attr: {},
-          style: {}
-        })
-
-        const task2 = callTasksSpy.secondCall.args[0][0]
-        expect(task2.module).to.be.equal('dom')
-        expect(task2.method).to.be.equal('addElement')
-        expect(task2.args[1]).to.deep.equal({
-          type: 'text',
-          ref: app.doc.body.children[0].ref,
-          attr: {
-            value: 'Hello World'
-          },
-          style: {}
-        })
-        expect(task2.args[0]).to.be.equal('_root')
-        expect(task2.args[2]).to.be.equal(-1)
       })
     })
   })

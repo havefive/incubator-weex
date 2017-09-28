@@ -1,31 +1,44 @@
-/**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package com.taobao.weex.dom;
+
+import static com.taobao.weex.dom.WXStyle.UNSET;
 
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.SpannedString;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.AlignmentSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StrikethroughSpan;
-import android.text.style.UnderlineSpan;
-
 import com.taobao.weex.WXEnvironment;
 import com.taobao.weex.common.Constants;
 import com.taobao.weex.dom.flex.CSSConstants;
@@ -37,14 +50,11 @@ import com.taobao.weex.ui.component.WXTextDecoration;
 import com.taobao.weex.utils.WXDomUtils;
 import com.taobao.weex.utils.WXLogUtils;
 import com.taobao.weex.utils.WXResourceUtils;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
-
-import static com.taobao.weex.dom.WXStyle.UNSET;
 
 /**
  * Class for calculating a given text's height and width. The calculating of width and height of
@@ -153,6 +163,10 @@ public class WXTextDomObject extends WXDomObject {
     hasBeenMeasured = false;
     updateStyleAndText();
     spanned = createSpanned(mText);
+    if(hasNewLayout()){
+        WXLogUtils.e("TextDom", new IllegalStateException("Previous csslayout was ignored! markLayoutSeen() never called"));
+        markUpdateSeen();
+    }
     super.dirty();
     super.layoutBefore();
   }
@@ -171,8 +185,9 @@ public class WXTextDomObject extends WXDomObject {
     hasBeenMeasured = false;
     if (layout != null && !layout.equals(atomicReference.get()) &&
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      //TODO Warm up, a profile should be used to see the improvement.
-      warmUpTextLayoutCache(layout);
+      if(Looper.getMainLooper().getThread().getId() != Thread.currentThread().getId()){
+          warmUpTextLayoutCache(layout);
+      }
     }
     swap();
     super.layoutAfter();
@@ -206,7 +221,7 @@ public class WXTextDomObject extends WXDomObject {
       dom = new WXTextDomObject();
       copyFields(dom);
       dom.hasBeenMeasured = hasBeenMeasured;
-      dom.atomicReference = atomicReference;
+      dom.atomicReference = new AtomicReference<>(atomicReference.get());
     } catch (Exception e) {
       if (WXEnvironment.isApkDebugable()) {
         WXLogUtils.e("WXTextDomObject clone error: ", e);
@@ -246,9 +261,7 @@ public class WXTextDomObject extends WXDomObject {
     if (style != null) {
       if (style.containsKey(Constants.Name.LINES)) {
         int lines = WXStyle.getLines(style);
-        if (lines > 0) {
-          mNumberOfLines = lines;
-        }
+        mNumberOfLines = lines > 0 ? lines : UNSET;
       }
       if (style.containsKey(Constants.Name.FONT_SIZE)) {
         mFontSize = WXStyle.getFontSize(style,getViewPortWidth());
@@ -293,7 +306,7 @@ public class WXTextDomObject extends WXDomObject {
     Layout layout;
     if (!FloatUtil.floatsEqual(previousWidth, textWidth) || previousLayout == null) {
       layout = new StaticLayout(spanned, mTextPaint, (int) Math.ceil(textWidth),
-                                Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
+          Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
     } else {
       layout = previousLayout;
     }
@@ -302,37 +315,72 @@ public class WXTextDomObject extends WXDomObject {
       lastLineStart = layout.getLineStart(mNumberOfLines - 1);
       lastLineEnd = layout.getLineEnd(mNumberOfLines - 1);
       if (lastLineStart < lastLineEnd) {
-        String text = mText.subSequence(0, lastLineStart).toString() +
-                               truncate(mText.substring(lastLineStart, lastLineEnd),
-                                        mTextPaint, layout.getWidth(), textOverflow);
-        spanned = createSpanned(text);
+        SpannableStringBuilder builder = new SpannableStringBuilder(spanned.subSequence(0, lastLineStart));
+        Editable lastLine = new SpannableStringBuilder(spanned.subSequence(lastLineStart, lastLineEnd));
+        builder.append(truncate(lastLine, mTextPaint, layout.getWidth(), textOverflow));
+        adjustSpansRange(spanned, builder);
+        spanned = builder;
         return new StaticLayout(spanned, mTextPaint, (int) Math.ceil(textWidth),
-                                Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
+            Layout.Alignment.ALIGN_NORMAL, 1, 0, false);
       }
     }
     return layout;
   }
 
-  public @NonNull String truncate(@Nullable String source, @NonNull TextPaint paint,
-                                  int desired, @Nullable TextUtils.TruncateAt truncateAt){
-    if(!TextUtils.isEmpty(source)){
-      StringBuilder builder;
-      Spanned spanned;
+  /**
+   * Truncate the source span to the specified lines.
+   * Caller of this method must ensure that the lines of text is <strong>greater than desired lines and need truncate</strong>.
+   * Otherwise, unexpected behavior may happen.
+   * @param source The source span.
+   * @param paint the textPaint
+   * @param desired specified lines.
+   * @param truncateAt truncate method, null value means clipping overflow text directly, non-null value means using ellipsis strategy to clip
+   * @return The spans after clipped.
+   */
+  private
+  @NonNull
+  Spanned truncate(@Nullable Editable source, @NonNull TextPaint paint,
+      int desired, @Nullable TextUtils.TruncateAt truncateAt) {
+    Spanned ret = new SpannedString("");
+    if (!TextUtils.isEmpty(source) && source.length() > 0) {
+      if (truncateAt != null) {
+        source.append(ELLIPSIS);
+      }
+
       StaticLayout layout;
-      for(int i=source.length();i>0;i--){
-        builder=new StringBuilder(i+1);
-        builder.append(source, 0, i);
-        if(truncateAt!=null){
-          builder.append(ELLIPSIS);
+      int startOffset;
+
+      while (source.length() > 1) {
+        startOffset = source.length() -1;
+        if (truncateAt != null) {
+          startOffset -= 1;
         }
-        spanned = createSpanned(builder.toString());
-        layout = new StaticLayout(spanned, paint, desired, Layout.Alignment.ALIGN_NORMAL, 1, 0, true);
-        if(layout.getLineCount()<=1){
-          return spanned.toString();
+        source.delete(startOffset, startOffset+1);
+        layout = new StaticLayout(source, paint, desired, Layout.Alignment.ALIGN_NORMAL, 1, 0, true);
+        if (layout.getLineCount() <= 1) {
+          ret = source;
+          break;
         }
       }
     }
-    return "";
+    return ret;
+  }
+
+  /**
+   * Adjust span range after truncate due to the wrong span range during span copy and slicing.
+   * @param beforeTruncate The span before truncate
+   * @param afterTruncate The span after truncate
+   */
+  private void adjustSpansRange(@NonNull Spanned beforeTruncate, @NonNull Spannable afterTruncate){
+    Object[] spans = beforeTruncate.getSpans(0, beforeTruncate.length(), Object.class);
+    for(Object span:spans){
+      int start = beforeTruncate.getSpanStart(span);
+      int end = beforeTruncate.getSpanEnd(span);
+      if(start == 0 && end == beforeTruncate.length()){
+        afterTruncate.removeSpan(span);
+        afterTruncate.setSpan(span, 0, afterTruncate.length(), beforeTruncate.getSpanFlags(span));
+      }
+    }
   }
 
   /**
@@ -344,7 +392,7 @@ public class WXTextDomObject extends WXDomObject {
    * @return if forceToDesired is false, it will be the minimum value of the width of text and
    * outerWidth in case of outerWidth is defined, in other case, it will be outer width.
    */
-  /** package **/ float getTextWidth(TextPaint textPaint,float outerWidth, boolean forceToDesired) {
+   float getTextWidth(TextPaint textPaint,float outerWidth, boolean forceToDesired) {
     float textWidth;
     if (forceToDesired) {
       textWidth = outerWidth;
@@ -379,7 +427,7 @@ public class WXTextDomObject extends WXDomObject {
     List<SetSpanOperation> ops = createSetSpanOperation(spannable.length(), spanFlag);
     if (mFontSize == UNSET) {
       ops.add(new SetSpanOperation(0, spannable.length(),
-                                   new AbsoluteSizeSpan(WXText.sDEFAULT_SIZE), spanFlag));
+          new AbsoluteSizeSpan(WXText.sDEFAULT_SIZE), spanFlag));
     }
     Collections.reverse(ops);
     for (SetSpanOperation op : ops) {
@@ -397,17 +445,12 @@ public class WXTextDomObject extends WXDomObject {
     List<SetSpanOperation> ops = new LinkedList<>();
     int start = 0;
     if (end >= start) {
-      if (mTextDecoration == WXTextDecoration.UNDERLINE) {
-        ops.add(new SetSpanOperation(start, end,
-                                     new UnderlineSpan(), spanFlag));
-      }
-      if (mTextDecoration == WXTextDecoration.LINETHROUGH) {
-        ops.add(new SetSpanOperation(start, end,
-                                     new StrikethroughSpan(), spanFlag));
+      if (mTextDecoration == WXTextDecoration.UNDERLINE || mTextDecoration == WXTextDecoration.LINETHROUGH) {
+        ops.add(new SetSpanOperation(start, end, new TextDecorationSpan(mTextDecoration), spanFlag));
       }
       if (mIsColorSet) {
         ops.add(new SetSpanOperation(start, end,
-                                     new ForegroundColorSpan(mColor), spanFlag));
+            new ForegroundColorSpan(mColor), spanFlag));
       }
       if (mFontSize != UNSET) {
         ops.add(new SetSpanOperation(start, end, new AbsoluteSizeSpan(mFontSize), spanFlag));
@@ -416,8 +459,8 @@ public class WXTextDomObject extends WXDomObject {
           || mFontWeight != UNSET
           || mFontFamily != null) {
         ops.add(new SetSpanOperation(start, end,
-                                     new WXCustomStyleSpan(mFontStyle, mFontWeight, mFontFamily),
-                                     spanFlag));
+            new WXCustomStyleSpan(mFontStyle, mFontWeight, mFontFamily),
+            spanFlag));
       }
       ops.add(new SetSpanOperation(start, end, new AlignmentSpan.Standard(mAlignment), spanFlag));
       if (mLineHeight != UNSET) {
@@ -437,6 +480,7 @@ public class WXTextDomObject extends WXDomObject {
       layout = null;
       mTextPaint = new TextPaint(mTextPaint);
     }
+    hasBeenMeasured = false;
   }
 
   /**

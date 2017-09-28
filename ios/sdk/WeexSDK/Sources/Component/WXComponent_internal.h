@@ -1,16 +1,31 @@
-/**
- * Created by Weex.
- * Copyright (c) 2016, Alibaba, Inc. All rights reserved.
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * This source code is licensed under the Apache Licence 2.0.
- * For the full copyright and license information,please view the LICENSE file in the root directory of this source tree.
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 #import "WXScrollerProtocol.h"
 #import "WXComponent.h"
 #import "WXConvert.h"
+#import "WXTransform.h"
+#import "WXTransition.h"
 @class WXTouchGestureRecognizer;
 @class WXThreadSafeCounter;
+
+typedef id (^WXDataBindingBlock)(NSDictionary *data, BOOL *needUpdate);
 
 /**
  * The following variables and methods are used in Weex INTERNAL logic.
@@ -30,6 +45,10 @@
     CGPoint _absolutePosition;
     WXPositionType _positionType;
     
+    
+    //Transition
+    WXTransition *_transition;
+    
     /**
      *  View
      */
@@ -39,6 +58,19 @@
     UIView *_view;
     CGFloat _opacity;
     WXVisibility  _visibility;
+    WXBoxShadow *_originalBoxShadow;
+    WXBoxShadow *_lastBoxShadow;
+    WXBoxShadow *_boxShadow;
+    
+    /**
+     * accessibility support
+     */
+    NSString * _roles; //accessibility
+    NSString * _ariaLabel; //accessibilityLabel
+    NSString * _ariaHidden; // accessibilityElementsHidden
+    NSString * _accessible; // accessible
+    NSString * _accessibilityHintContent; // hint for the action
+    NSString * _testId;// just for auto-test
     
     /**
      *  PseudoClass
@@ -70,8 +102,8 @@
      *  Display
      */
     CALayer *_layer;
-    BOOL _composite;
-    BOOL _compositingChild;
+    BOOL _useCompositing;
+    BOOL _isCompositingChild;
     WXThreadSafeCounter *_displayCounter;
     
     UIColor *_borderTopColor;
@@ -100,8 +132,26 @@
     BOOL _isNeedJoinLayoutSystem;
     BOOL _lazyCreateView;
     
-    NSString *_transform;
-    NSString *_transformOrigin;
+    WXTransform *_transform;
+    
+    /**
+     * Data Binding
+     */
+    BOOL _isTemplate;
+    WXComponent *_templateComponent;
+    WXDataBindingBlock _bindingMatch;
+    WXDataBindingBlock _bindingRepeat;
+    NSString *_repeatIndexIdentify;
+    NSString *_repeatLabelIdentify;
+    BOOL _isRepeating;
+    BOOL _isSkipUpdate;
+    
+    NSMutableDictionary<NSString *, WXDataBindingBlock> *_bindingProps;
+    NSMutableDictionary<NSString *, WXDataBindingBlock> *_bindingAttributes;
+    NSMutableDictionary<NSString *, WXDataBindingBlock> *_bindingStyles;
+    NSMutableDictionary<NSString *, WXDataBindingBlock> *_bindingEvents;
+    
+    NSMutableDictionary<NSString *, NSArray *> *_eventParameters;
 }
 
 ///--------------------------------------
@@ -145,11 +195,15 @@
 
 - (NSUInteger)_childrenCountForLayout;
 
-- (void)_fillAbsolutePositions;
-
 ///--------------------------------------
 /// @name Private Methods
 ///--------------------------------------
+
+- (void)_handleLayoutAnimationWithStyles:(NSDictionary *)styles;
+
+- (void)_modifyStyles:(NSDictionary *)styles;
+
+- (void)_transitionUpdateViewProperty:(NSDictionary *)styles;
 
 - (void)_initCSSNodeWithStyles:(NSDictionary *)styles;
 
@@ -173,7 +227,15 @@
 
 - (void)_removeAllEvents;
 
+- (void)_addEventParams:(NSDictionary *)params;
+
+- (NSArray *)_paramsForEvent:(NSString *)eventName;
+
 - (void)_setupNavBarWithStyles:(NSMutableDictionary *)styles attributes:(NSMutableDictionary *)attributes;
+
+- (void)_initCompositingAttribute:(NSDictionary *)attributes;
+
+- (BOOL)_bitmapOpaqueWithSize:(CGSize)size;
 
 - (void)_updateNavBarAttributes:(NSDictionary *)attributes;
 
@@ -184,4 +246,15 @@
 - (void)_updatePseudoClassStyles:(NSString *)key;
 
 - (void)_restoreViewStyles;
+
+- (void)_configWXComponentA11yWithAttributes:(NSDictionary *)attributes;
+
+- (void)setGradientLayer;
+
+- (void)_storeBindingsWithProps:(NSDictionary *)props styles:(NSDictionary *)styles attributes:(NSDictionary *)attributes events:(NSDictionary *)events;
+
+- (void)_didInserted;
+
 @end
+
+

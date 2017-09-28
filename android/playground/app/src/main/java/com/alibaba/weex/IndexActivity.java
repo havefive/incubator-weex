@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package com.alibaba.weex;
 
 import android.Manifest;
@@ -33,6 +51,7 @@ public class IndexActivity extends AbstractWeexActivity {
 
   private static final String TAG = "IndexActivity";
   private static final int CAMERA_PERMISSION_REQUEST_CODE = 0x1;
+  private static final int WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 0x2;
   private static final String DEFAULT_IP = "your_current_IP";
   private static String sCurrentIp = DEFAULT_IP; // your_current_IP
 
@@ -84,6 +103,18 @@ public class IndexActivity extends AbstractWeexActivity {
     };
 
     LocalBroadcastManager.getInstance(this).registerReceiver(mReloadReceiver, new IntentFilter(WXSDKEngine.JS_FRAMEWORK_RELOAD));
+
+    requestWeexPermission();
+  }
+
+  private void requestWeexPermission() {
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        Toast.makeText(this, "please give me the permission", Toast.LENGTH_SHORT).show();
+      } else {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE);
+      }
+    }
   }
 
   @Override
@@ -129,6 +160,7 @@ public class IndexActivity extends AbstractWeexActivity {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     if (requestCode == CAMERA_PERMISSION_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
       startActivity(new Intent(this, CaptureActivity.class));
+    } else if (requestCode == WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
     } else {
       Toast.makeText(this, "request camara permission fail!", Toast.LENGTH_SHORT).show();
     }
@@ -157,6 +189,12 @@ public class IndexActivity extends AbstractWeexActivity {
   public void onDestroy() {
     super.onDestroy();
     LocalBroadcastManager.getInstance(this).unregisterReceiver(mReloadReceiver);
+  }
+
+  @Override
+  public void onPause() {
+    super.onPause();
+//    WXSDKManager.getInstance().takeJSHeapSnapshot("/sdcard/weex/");
   }
 
   private static String getIndexUrl() {

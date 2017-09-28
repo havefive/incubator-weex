@@ -1,223 +1,43 @@
-/**
- *
- *                                  Apache License
- *                            Version 2.0, January 2004
- *                         http://www.apache.org/licenses/
- *
- *    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
- *
- *    1. Definitions.
- *
- *       "License" shall mean the terms and conditions for use, reproduction,
- *       and distribution as defined by Sections 1 through 9 of this document.
- *
- *       "Licensor" shall mean the copyright owner or entity authorized by
- *       the copyright owner that is granting the License.
- *
- *       "Legal Entity" shall mean the union of the acting entity and all
- *       other entities that control, are controlled by, or are under common
- *       control with that entity. For the purposes of this definition,
- *       "control" means (i) the power, direct or indirect, to cause the
- *       direction or management of such entity, whether by contract or
- *       otherwise, or (ii) ownership of fifty percent (50%) or more of the
- *       outstanding shares, or (iii) beneficial ownership of such entity.
- *
- *       "You" (or "Your") shall mean an individual or Legal Entity
- *       exercising permissions granted by this License.
- *
- *       "Source" form shall mean the preferred form for making modifications,
- *       including but not limited to software source code, documentation
- *       source, and configuration files.
- *
- *       "Object" form shall mean any form resulting from mechanical
- *       transformation or translation of a Source form, including but
- *       not limited to compiled object code, generated documentation,
- *       and conversions to other media types.
- *
- *       "Work" shall mean the work of authorship, whether in Source or
- *       Object form, made available under the License, as indicated by a
- *       copyright notice that is included in or attached to the work
- *       (an example is provided in the Appendix below).
- *
- *       "Derivative Works" shall mean any work, whether in Source or Object
- *       form, that is based on (or derived from) the Work and for which the
- *       editorial revisions, annotations, elaborations, or other modifications
- *       represent, as a whole, an original work of authorship. For the purposes
- *       of this License, Derivative Works shall not include works that remain
- *       separable from, or merely link (or bind by name) to the interfaces of,
- *       the Work and Derivative Works thereof.
- *
- *       "Contribution" shall mean any work of authorship, including
- *       the original version of the Work and any modifications or additions
- *       to that Work or Derivative Works thereof, that is intentionally
- *       submitted to Licensor for inclusion in the Work by the copyright owner
- *       or by an individual or Legal Entity authorized to submit on behalf of
- *       the copyright owner. For the purposes of this definition, "submitted"
- *       means any form of electronic, verbal, or written communication sent
- *       to the Licensor or its representatives, including but not limited to
- *       communication on electronic mailing lists, source code control systems,
- *       and issue tracking systems that are managed by, or on behalf of, the
- *       Licensor for the purpose of discussing and improving the Work, but
- *       excluding communication that is conspicuously marked or otherwise
- *       designated in writing by the copyright owner as "Not a Contribution."
- *
- *       "Contributor" shall mean Licensor and any individual or Legal Entity
- *       on behalf of whom a Contribution has been received by Licensor and
- *       subsequently incorporated within the Work.
- *
- *    2. Grant of Copyright License. Subject to the terms and conditions of
- *       this License, each Contributor hereby grants to You a perpetual,
- *       worldwide, non-exclusive, no-charge, royalty-free, irrevocable
- *       copyright license to reproduce, prepare Derivative Works of,
- *       publicly display, publicly perform, sublicense, and distribute the
- *       Work and such Derivative Works in Source or Object form.
- *
- *    3. Grant of Patent License. Subject to the terms and conditions of
- *       this License, each Contributor hereby grants to You a perpetual,
- *       worldwide, non-exclusive, no-charge, royalty-free, irrevocable
- *       (except as stated in this section) patent license to make, have made,
- *       use, offer to sell, sell, import, and otherwise transfer the Work,
- *       where such license applies only to those patent claims licensable
- *       by such Contributor that are necessarily infringed by their
- *       Contribution(s) alone or by combination of their Contribution(s)
- *       with the Work to which such Contribution(s) was submitted. If You
- *       institute patent litigation against any entity (including a
- *       cross-claim or counterclaim in a lawsuit) alleging that the Work
- *       or a Contribution incorporated within the Work constitutes direct
- *       or contributory patent infringement, then any patent licenses
- *       granted to You under this License for that Work shall terminate
- *       as of the date such litigation is filed.
- *
- *    4. Redistribution. You may reproduce and distribute copies of the
- *       Work or Derivative Works thereof in any medium, with or without
- *       modifications, and in Source or Object form, provided that You
- *       meet the following conditions:
- *
- *       (a) You must give any other recipients of the Work or
- *           Derivative Works a copy of this License; and
- *
- *       (b) You must cause any modified files to carry prominent notices
- *           stating that You changed the files; and
- *
- *       (c) You must retain, in the Source form of any Derivative Works
- *           that You distribute, all copyright, patent, trademark, and
- *           attribution notices from the Source form of the Work,
- *           excluding those notices that do not pertain to any part of
- *           the Derivative Works; and
- *
- *       (d) If the Work includes a "NOTICE" text file as part of its
- *           distribution, then any Derivative Works that You distribute must
- *           include a readable copy of the attribution notices contained
- *           within such NOTICE file, excluding those notices that do not
- *           pertain to any part of the Derivative Works, in at least one
- *           of the following places: within a NOTICE text file distributed
- *           as part of the Derivative Works; within the Source form or
- *           documentation, if provided along with the Derivative Works; or,
- *           within a display generated by the Derivative Works, if and
- *           wherever such third-party notices normally appear. The contents
- *           of the NOTICE file are for informational purposes only and
- *           do not modify the License. You may add Your own attribution
- *           notices within Derivative Works that You distribute, alongside
- *           or as an addendum to the NOTICE text from the Work, provided
- *           that such additional attribution notices cannot be construed
- *           as modifying the License.
- *
- *       You may add Your own copyright statement to Your modifications and
- *       may provide additional or different license terms and conditions
- *       for use, reproduction, or distribution of Your modifications, or
- *       for any such Derivative Works as a whole, provided Your use,
- *       reproduction, and distribution of the Work otherwise complies with
- *       the conditions stated in this License.
- *
- *    5. Submission of Contributions. Unless You explicitly state otherwise,
- *       any Contribution intentionally submitted for inclusion in the Work
- *       by You to the Licensor shall be under the terms and conditions of
- *       this License, without any additional terms or conditions.
- *       Notwithstanding the above, nothing herein shall supersede or modify
- *       the terms of any separate license agreement you may have executed
- *       with Licensor regarding such Contributions.
- *
- *    6. Trademarks. This License does not grant permission to use the trade
- *       names, trademarks, service marks, or product names of the Licensor,
- *       except as required for reasonable and customary use in describing the
- *       origin of the Work and reproducing the content of the NOTICE file.
- *
- *    7. Disclaimer of Warranty. Unless required by applicable law or
- *       agreed to in writing, Licensor provides the Work (and each
- *       Contributor provides its Contributions) on an "AS IS" BASIS,
- *       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- *       implied, including, without limitation, any warranties or conditions
- *       of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
- *       PARTICULAR PURPOSE. You are solely responsible for determining the
- *       appropriateness of using or redistributing the Work and assume any
- *       risks associated with Your exercise of permissions under this License.
- *
- *    8. Limitation of Liability. In no event and under no legal theory,
- *       whether in tort (including negligence), contract, or otherwise,
- *       unless required by applicable law (such as deliberate and grossly
- *       negligent acts) or agreed to in writing, shall any Contributor be
- *       liable to You for damages, including any direct, indirect, special,
- *       incidental, or consequential damages of any character arising as a
- *       result of this License or out of the use or inability to use the
- *       Work (including but not limited to damages for loss of goodwill,
- *       work stoppage, computer failure or malfunction, or any and all
- *       other commercial damages or losses), even if such Contributor
- *       has been advised of the possibility of such damages.
- *
- *    9. Accepting Warranty or Additional Liability. While redistributing
- *       the Work or Derivative Works thereof, You may choose to offer,
- *       and charge a fee for, acceptance of support, warranty, indemnity,
- *       or other liability obligations and/or rights consistent with this
- *       License. However, in accepting such obligations, You may act only
- *       on Your own behalf and on Your sole responsibility, not on behalf
- *       of any other Contributor, and only if You agree to indemnify,
- *       defend, and hold each Contributor harmless for any liability
- *       incurred by, or claims asserted against, such Contributor by reason
- *       of your accepting any such warranty or additional liability.
- *
- *    END OF TERMS AND CONDITIONS
- *
- *    APPENDIX: How to apply the Apache License to your work.
- *
- *       To apply the Apache License to your work, attach the following
- *       boilerplate notice, with the fields enclosed by brackets "[]"
- *       replaced with your own identifying information. (Don't include
- *       the brackets!)  The text should be enclosed in the appropriate
- *       comment syntax for the file format. We also recommend that a
- *       file or class name and description of purpose be included on the
- *       same "printed page" as the copyright notice for easier
- *       identification within third-party archives.
- *
- *    Copyright 2016 Alibaba Group
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 package com.taobao.weex;
 
+import static com.taobao.weex.http.WXHttpUtil.KEY_USER_AGENT;
+
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RestrictTo;
+import android.support.annotation.RestrictTo.Scope;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
-
 import com.alibaba.fastjson.JSONObject;
 import com.taobao.weex.adapter.IDrawableLoader;
 import com.taobao.weex.adapter.IWXHttpAdapter;
@@ -231,6 +51,7 @@ import com.taobao.weex.bridge.WXBridgeManager;
 import com.taobao.weex.bridge.WXModuleManager;
 import com.taobao.weex.common.Constants;
 import com.taobao.weex.common.Destroyable;
+import com.taobao.weex.common.IWXDebugProxy;
 import com.taobao.weex.common.OnWXScrollListener;
 import com.taobao.weex.common.WXErrorCode;
 import com.taobao.weex.common.WXModule;
@@ -245,19 +66,20 @@ import com.taobao.weex.dom.WXDomObject;
 import com.taobao.weex.dom.WXDomTask;
 import com.taobao.weex.dom.WXEvent;
 import com.taobao.weex.http.WXHttpUtil;
+import com.taobao.weex.tracing.WXTracing;
 import com.taobao.weex.ui.component.NestedContainer;
 import com.taobao.weex.ui.component.WXBasicComponentType;
 import com.taobao.weex.ui.component.WXComponent;
 import com.taobao.weex.ui.component.WXComponentFactory;
-import com.taobao.weex.ui.component.WXVContainer;
+import com.taobao.weex.ui.flat.FlatGUIContext;
 import com.taobao.weex.ui.view.WXScrollView;
 import com.taobao.weex.ui.view.WXScrollView.WXScrollViewListener;
+import com.taobao.weex.utils.Trace;
 import com.taobao.weex.utils.WXFileUtils;
 import com.taobao.weex.utils.WXJsonUtils;
 import com.taobao.weex.utils.WXLogUtils;
 import com.taobao.weex.utils.WXReflectionUtils;
 import com.taobao.weex.utils.WXViewUtils;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -265,9 +87,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.taobao.weex.http.WXHttpUtil.KEY_USER_AGENT;
-
 
 /**
  * Each instance of WXSDKInstance represents an running weex instance.
@@ -280,6 +99,7 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
   public static final String BUNDLE_URL = "bundleUrl";
   private IWXUserTrackAdapter mUserTrackAdapter;
   private IWXRenderListener mRenderListener;
+  private IWXStatisticsListener mStatisticsListener;
   /** package **/ Context mContext;
   private final String mInstanceId;
   private RenderContainer mRenderContainer;
@@ -294,18 +114,16 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
   private boolean isCommit=false;
   private WXGlobalEventReceiver mGlobalEventReceiver=null;
   private boolean trackComponent;
-  /*
-   *  store custom ViewPort Width
-   */
-  public void setViewPortWidth(int mViewPortWidth) {
-    this.mViewPortWidth = mViewPortWidth;
-  }
-
-  public static int getViewPortWidth() {
-    return mViewPortWidth;
-  }
-
+  private boolean enableLayerType = true;
+  private boolean mNeedValidate = false;
+  private boolean mNeedReLoad = false;
   private static volatile int mViewPortWidth = 750;
+  private int mInstanceViewPortWidth = 750;
+  private @NonNull
+  FlatGUIContext mFlatGUIContext =new FlatGUIContext();
+
+  public long mRenderStartNanos;
+  public int mExecJSTraceId = WXTracing.nextId();
 
   /**
    * Render strategy.
@@ -324,6 +142,16 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
   private WXScrollViewListener mWXScrollViewListener;
 
   private List<OnWXScrollListener> mWXScrollListeners;
+
+  /**
+   * whether we are in preRender mode
+   * */
+  private volatile boolean isPreRenderMode;
+
+  private LayoutFinishListener mLayoutFinishListener;
+
+  private boolean mCurrentGround = false;
+  private ComponentObserver mComponentObserver;
 
   /**
    * If anchor is created manually(etc. define a layout xml resource ),
@@ -350,6 +178,72 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     this.trackComponent = trackComponent;
   }
 
+  /**
+   * Tell whether it is enabled to change the layerType
+   * {@link android.view.View#setLayerType(int, Paint)}
+   * @return True for enable to change the layerType of component, false otherwise. The default
+   * is True
+   */
+  public boolean isLayerTypeEnabled() {
+    return enableLayerType;
+  }
+
+  /**
+   * Enable the ability of changing layerType. e.g. {@link android.view.View#setLayerType(int, Paint)}
+   * Disable the ability of changing layerType will have tremendous <strong>performance
+   * punishment</strong>.
+   *
+   * <strong>Do not</strong> set this to false unless you know exactly what you are doing.
+   * @param enable True for enable to change the layerType of component, false otherwise. The default
+   * is True
+   */
+  public void enableLayerType(boolean enable) {
+    enableLayerType = enable;
+  }
+
+  @RestrictTo(Scope.LIBRARY)
+  public @NonNull
+  FlatGUIContext getFlatUIContext(){
+    return mFlatGUIContext;
+  }
+
+  public boolean isNeedValidate() {
+    return mNeedValidate;
+  }
+
+  public boolean isNeedReLoad() {
+    return mNeedReLoad;
+  }
+
+  public void setNeedLoad(boolean load) {
+    mNeedReLoad = load;
+  }
+  /*
+  *  Warning: use setInstanceViewPortWidth instead.
+  *  store custom ViewPort Width
+  */
+  @Deprecated
+  public void setViewPortWidth(int viewPortWidth) {
+    mViewPortWidth = viewPortWidth;
+  }
+
+  /**
+   * Warning: use getInstanceViewPortWidth instead.
+   * @return
+   */
+  @Deprecated
+  public static int getViewPortWidth() {
+    return mViewPortWidth;
+  }
+
+  public void setInstanceViewPortWidth(int instanceViewPortWidth) {
+    this.mInstanceViewPortWidth = instanceViewPortWidth;
+  }
+
+  public int getInstanceViewPortWidth(){
+    return mInstanceViewPortWidth;
+  }
+
   public interface OnInstanceVisibleListener{
     void onAppear();
     void onDisappear();
@@ -364,6 +258,7 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
   /**
    * For unittest only.
    */
+  @RestrictTo(Scope.TESTS)
   WXSDKInstance(Context context,String id) {
     mInstanceId = id;
     init(context);
@@ -378,12 +273,16 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     mNestedInstanceInterceptor = interceptor;
   }
 
-  public WXSDKInstance createNestedInstance(NestedContainer container){
-    WXSDKInstance sdkInstance = new WXSDKInstance(mContext);
+  public final WXSDKInstance createNestedInstance(NestedContainer container){
+    WXSDKInstance sdkInstance = newNestedInstance();
     if(mNestedInstanceInterceptor != null){
       mNestedInstanceInterceptor.onCreateNestInstance(sdkInstance,container);
     }
     return sdkInstance;
+  }
+
+  protected WXSDKInstance newNestedInstance() {
+    return new WXSDKInstance(mContext);
   }
 
   public void addOnInstanceVisibleListener(OnInstanceVisibleListener l){
@@ -403,6 +302,21 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     mWXPerformance.JSLibInitTime = WXEnvironment.sJSLibInitTime;
 
     mUserTrackAdapter=WXSDKManager.getInstance().getIWXUserTrackAdapter();
+  }
+
+  /**
+   * Set a Observer for component.
+   * This observer will be called in each component, should not doing
+   * anything will impact render performance.
+   *
+   * @param observer
+   */
+  public void setComponentObserver(ComponentObserver observer){
+    mComponentObserver = observer;
+  }
+
+  public ComponentObserver getComponentObserver(){
+    return mComponentObserver;
   }
 
   public NativeInvokeHelper getNativeInvokeHelper() {
@@ -477,6 +391,7 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
    * @param jsonInitData Initial data for rendering
    * @param flag     RenderStrategy {@link WXRenderStrategy}
    */
+  @Deprecated
   public void render(String template, Map<String, Object> options, String jsonInitData, WXRenderStrategy flag) {
     render(WXPerformance.DEFAULT, template, options, jsonInitData, flag);
   }
@@ -501,16 +416,32 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
    * @param flag     RenderStrategy {@link WXRenderStrategy}
    */
   public void render(String pageName, String template, Map<String, Object> options, String jsonInitData, WXRenderStrategy flag) {
+    if(WXEnvironment.isApkDebugable() && WXPerformance.DEFAULT.equals(pageName)){
+      WXLogUtils.e("WXSDKInstance", "Please set your pageName or your js bundle url !!!!!!!");
+
+      if (getUIContext() != null) {
+        new AlertDialog.Builder(getUIContext())
+            .setTitle("Error: Missing pageName")
+            .setMessage("We highly recommend you to set pageName. Call" +
+                "\nWXSDKInstance#render(String pageName, String template, Map<String, Object> options, String jsonInitData, WXRenderStrategy flag)\n" +
+                "to fix it.")
+            .show();
+      }
+
+      return;
+    }
     renderInternal(pageName,template,options,jsonInitData,flag);
   }
 
   private void ensureRenderArchor(){
     if(mRenderContainer == null){
-      mRenderContainer = new RenderContainer(getContext());
-      mRenderContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-      mRenderContainer.setBackgroundColor(Color.TRANSPARENT);
-      mRenderContainer.setSDKInstance(this);
-      mRenderContainer.addOnLayoutChangeListener(this);
+      if (getContext() != null) {
+        mRenderContainer = new RenderContainer(getContext());
+        mRenderContainer.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mRenderContainer.setBackgroundColor(Color.TRANSPARENT);
+        mRenderContainer.setSDKInstance(this);
+        mRenderContainer.addOnLayoutChangeListener(this);
+      }
     }
   }
 
@@ -521,6 +452,18 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
                               WXRenderStrategy flag){
     if (mRendered || TextUtils.isEmpty(template)) {
       return;
+    }
+
+    WXLogUtils.d("WXSDKInstance", "Start render page: " + pageName);
+
+    if (WXTracing.isAvailable()) {
+      WXTracing.TraceEvent traceEvent = WXTracing.newEvent("executeBundleJS", mInstanceId, -1);
+      traceEvent.traceId = mExecJSTraceId;
+      traceEvent.iid = mInstanceId;
+      traceEvent.tname = "JSThread";
+      traceEvent.ph = "B";
+      traceEvent.submit();
+      mRenderStartNanos = System.nanoTime();
     }
 
     ensureRenderArchor();
@@ -537,10 +480,12 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     }
 
     mWXPerformance.pageName = pageName;
-    mWXPerformance.JSTemplateSize = template.length() / 1024;
+    mWXPerformance.JSTemplateSize = template.length() / 1024f;
 
     mRenderStartTime = System.currentTimeMillis();
     mRenderStrategy = flag;
+
+    WXSDKManager.getInstance().setCrashInfo(WXEnvironment.WEEX_CURRENT_KEY,pageName);
 
     WXSDKManager.getInstance().createInstance(this, template, renderOptions, jsonInitData);
     mRendered = true;
@@ -559,6 +504,9 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     ensureRenderArchor();
     pageName = wrapPageName(pageName, url);
     mBundleUrl = url;
+    if(WXSDKManager.getInstance().getValidateProcessor()!=null) {
+      mNeedValidate = WXSDKManager.getInstance().getValidateProcessor().needValidate(mBundleUrl);
+    }
 
     Map<String, Object> renderOptions = options;
     if (renderOptions == null) {
@@ -570,7 +518,7 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
 
     Uri uri = Uri.parse(url);
     if (uri != null && TextUtils.equals(uri.getScheme(), "file")) {
-      render(pageName, WXFileUtils.loadAsset(assembleFilePath(uri), mContext), renderOptions, jsonInitData, flag);
+      render(pageName, WXFileUtils.loadFileOrAsset(assembleFilePath(uri), mContext), renderOptions, jsonInitData, flag);
       return;
     }
 
@@ -582,7 +530,10 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
       wxRequest.paramMap = new HashMap<String, String>();
     }
     wxRequest.paramMap.put(KEY_USER_AGENT, WXHttpUtil.assembleUserAgent(mContext,WXEnvironment.getConfig()));
-    adapter.sendRequest(wxRequest, new WXHttpListener(pageName, renderOptions, jsonInitData, flag, System.currentTimeMillis()));
+    WXHttpListener httpListener =
+        new WXHttpListener(pageName, renderOptions, jsonInitData, flag, System.currentTimeMillis());
+    httpListener.setSDKInstance(this);
+    adapter.sendRequest(wxRequest, (IWXHttpAdapter.OnHttpListener) httpListener);
   }
 
   /**
@@ -663,6 +614,24 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     return "";
   }
 
+  public void reloadPage(boolean reloadThis) {
+
+    WXSDKEngine.reload();
+
+    if (reloadThis) {
+      // 可以发送广播吗？
+      if (mContext != null)  {
+        Intent intent = new Intent();
+        intent.setAction(IWXDebugProxy.ACTION_INSTANCE_RELOAD);
+        intent.putExtra("url", mBundleUrl);
+        mContext.sendBroadcast(intent);
+      }
+      // mRendered = false;
+      //    destroy();
+      // renderInternal(mPackage, mTemplate, mOptions, mJsonInitData, mFlag);
+      // refreshInstance("{}");
+    }
+  }
   /**
    * Refresh instance asynchronously.
    * @param data the new data
@@ -742,6 +711,10 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     return WXSDKManager.getInstance().getIWXHttpAdapter();
   }
 
+  public IWXStatisticsListener getWXStatisticsListener() {
+    return mStatisticsListener;
+  }
+
   public @Nullable
   IWebSocketAdapter getWXWebSocketAdapter() {
     return WXSDKManager.getInstance().getIWXWebSocketAdapter();
@@ -754,6 +727,24 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     }
   }
 
+
+  public boolean isPreRenderMode() {
+    return this.isPreRenderMode;
+  }
+
+  public void setPreRenderMode(final boolean isPreRenderMode) {
+    WXSDKManager.getInstance().getWXRenderManager().postOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        WXSDKInstance.this.isPreRenderMode = isPreRenderMode;
+      }
+    },0);
+  }
+
+  public void setContext(@NonNull Context context) {
+    this.mContext = context;
+  }
+
   /********************************
    * begin register listener
    ********************************************************/
@@ -764,6 +755,24 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
   @Deprecated
   public void registerActivityStateListener(IWXActivityStateListener listener) {
 
+  }
+
+  public void registerStatisticsListener(IWXStatisticsListener listener) {
+    mStatisticsListener = listener;
+  }
+
+  public void setLayoutFinishListener(@Nullable LayoutFinishListener listener) {
+    this.mLayoutFinishListener = listener;
+  }
+
+  public LayoutFinishListener getLayoutFinishListener() {
+    return this.mLayoutFinishListener;
+  }
+
+
+  /**set render start time*/
+  public void setRenderStartTime(long renderStartTime) {
+    this.mRenderStartTime = renderStartTime;
   }
 
   /********************************
@@ -815,6 +824,7 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     return true;
   }
 
+
   @Override
   public void onActivityPause() {
     onViewDisappear();
@@ -837,10 +847,15 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
       WXLogUtils.w("Warning :Component tree has not build completely,onActivityPause can not be call!");
     }
 
-    Intent intent=new Intent(WXGlobalEventReceiver.EVENT_ACTION);
-    intent.putExtra(WXGlobalEventReceiver.EVENT_NAME,Constants.Event.PAUSE_EVENT);
-    intent.putExtra(WXGlobalEventReceiver.EVENT_WX_INSTANCEID,getInstanceId());
-    mContext.sendBroadcast(intent);
+    WXLogUtils.i("Application onActivityPause()");
+    if (!mCurrentGround) {
+      WXLogUtils.i("Application to be in the backround");
+      Intent intent = new Intent(WXGlobalEventReceiver.EVENT_ACTION);
+      intent.putExtra(WXGlobalEventReceiver.EVENT_NAME, Constants.Event.PAUSE_EVENT);
+      intent.putExtra(WXGlobalEventReceiver.EVENT_WX_INSTANCEID, getInstanceId());
+      mContext.sendBroadcast(intent);
+      this.mCurrentGround = true;
+    }
   }
 
 
@@ -856,12 +871,18 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
       WXLogUtils.w("Warning :Component tree has not build completely, onActivityResume can not be call!");
     }
 
-    Intent intent=new Intent(WXGlobalEventReceiver.EVENT_ACTION);
-    intent.putExtra(WXGlobalEventReceiver.EVENT_NAME,Constants.Event.RESUME_EVENT);
-    intent.putExtra(WXGlobalEventReceiver.EVENT_WX_INSTANCEID,getInstanceId());
-    mContext.sendBroadcast(intent);
+    if (mCurrentGround) {
+      WXLogUtils.i("Application  to be in the foreground");
+      Intent intent = new Intent(WXGlobalEventReceiver.EVENT_ACTION);
+      intent.putExtra(WXGlobalEventReceiver.EVENT_NAME, Constants.Event.RESUME_EVENT);
+      intent.putExtra(WXGlobalEventReceiver.EVENT_WX_INSTANCEID, getInstanceId());
+      mContext.sendBroadcast(intent);
+      mCurrentGround = false;
+    }
 
     onViewAppear();
+
+    setViewPortWidth(mInstanceViewPortWidth);
   }
 
   @Override
@@ -912,7 +933,7 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
       WXEvent events= comp.getDomObject().getEvents();
       boolean hasBackPressed = events.contains(Constants.Event.CLICKBACKITEM);
       if (hasBackPressed) {
-        WXBridgeManager.getInstance().fireEvent(this.mInstanceId, comp.getRef(), Constants.Event.CLICKBACKITEM,null, null);
+        fireEvent(comp.getRef(), Constants.Event.CLICKBACKITEM,null, null);
       }
       return hasBackPressed;
     }
@@ -923,7 +944,7 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     WXModuleManager.onActivityResult(getInstanceId(),requestCode,resultCode,data);
 
     if(mRootComp != null) {
-      mRootComp.onActivityResult(requestCode,requestCode,data);
+      mRootComp.onActivityResult(requestCode,resultCode,data);
     }else{
       WXLogUtils.w("Warning :Component tree has not build completely, onActivityResult can not be call!");
     }
@@ -948,7 +969,7 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
   public void onViewDisappear(){
     WXComponent comp = getRootComponent();
     if(comp != null) {
-      WXBridgeManager.getInstance().fireEvent(this.mInstanceId, comp.getRef(), Constants.Event.VIEWDISAPPEAR, null, null);
+      fireEvent(comp.getRef(), Constants.Event.VIEWDISAPPEAR, null, null);
       //call disappear of nested instances
       for(OnInstanceVisibleListener instance:mVisibleListeners){
         instance.onDisappear();
@@ -959,7 +980,7 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
   public void onViewAppear(){
     WXComponent comp = getRootComponent();
     if(comp != null) {
-      WXBridgeManager.getInstance().fireEvent(this.mInstanceId, comp.getRef(), Constants.Event.VIEWAPPEAR,null, null);
+      fireEvent( comp.getRef(), Constants.Event.VIEWAPPEAR,null, null);
       for(OnInstanceVisibleListener instance:mVisibleListeners){
         instance.onAppear();
       }
@@ -981,6 +1002,9 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
             }
             if(mRenderListener != null) {
               mRenderListener.onViewCreated(WXSDKInstance.this, wxView);
+            }
+            if (mStatisticsListener != null) {
+              mStatisticsListener.onFirstView();
             }
           }
         }
@@ -1132,6 +1156,20 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
        return;
 
     mEnd = true;
+
+    if (mStatisticsListener != null && mContext != null) {
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          if (mStatisticsListener != null && mContext != null) {
+            Trace.beginSection("onFirstScreen");
+            mStatisticsListener.onFirstScreen();
+            Trace.endSection();
+          }
+        }
+      });
+    }
+
     mWXPerformance.screenRenderTime = System.currentTimeMillis() - mRenderStartTime;
     WXLogUtils.renderPerformanceLog("firstScreenRenderFinished", mWXPerformance.screenRenderTime);
     WXLogUtils.renderPerformanceLog("   firstScreenJSFExecuteTime", mWXPerformance.firstScreenJSFExecuteTime);
@@ -1169,12 +1207,20 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
    * UserTrack Log
    */
   public void commitUTStab(final String type, final WXErrorCode errorCode) {
-    if (mUserTrackAdapter == null || TextUtils.isEmpty(type) || errorCode==null) {
+    if (TextUtils.isEmpty(type) || errorCode == null) {
       return;
     }
+
     runOnUiThread(new Runnable() {
       @Override
       public void run() {
+        // Record exception if a render error happened.
+        if (mStatisticsListener != null && errorCode != WXErrorCode.WX_SUCCESS) {
+          mStatisticsListener.onException(mInstanceId,
+                                          errorCode.getErrorCode(),
+                                          errorCode.getErrorMsg());
+        }
+
         WXPerformance performance = new WXPerformance();
         performance.errCode = errorCode.getErrorCode();
         performance.args = errorCode.getArgs();
@@ -1213,39 +1259,51 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
   }
 
   public synchronized void destroy() {
-    WXSDKManager.getInstance().destroyInstance(mInstanceId);
-    WXComponentFactory.removeComponentTypesByInstanceId(getInstanceId());
+    if(!isDestroy()) {
+      WXSDKManager.getInstance().destroyInstance(mInstanceId);
+      WXComponentFactory.removeComponentTypesByInstanceId(getInstanceId());
 
-    if(mGlobalEventReceiver!=null){
-      getContext().unregisterReceiver(mGlobalEventReceiver);
-      mGlobalEventReceiver=null;
-    }
+      if (mGlobalEventReceiver != null) {
+        getContext().unregisterReceiver(mGlobalEventReceiver);
+        mGlobalEventReceiver = null;
+      }
+      if (mRootComp != null) {
+        mRootComp.destroy();
+        destroyView(mRenderContainer);
+        mRootComp = null;
+      }
 
-    if(mRootComp != null ) {
-      mRootComp.destroy();
-      destroyView(mRenderContainer);
+      if (mGlobalEvents != null) {
+        mGlobalEvents.clear();
+      }
+
+      if (mComponentObserver != null) {
+        mComponentObserver = null;
+      }
+
+      getFlatUIContext().destroy();
+      mFlatGUIContext = null;
+
+      mWXScrollListeners = null;
       mRenderContainer = null;
-      mRootComp = null;
+      mNestedInstanceInterceptor = null;
+      mUserTrackAdapter = null;
+      mScrollView = null;
+      mContext = null;
+      mRenderListener = null;
+      isDestroy = true;
+      mStatisticsListener = null;
     }
-
-    if(mGlobalEvents!=null){
-      mGlobalEvents.clear();
-    }
-
-
-    mNestedInstanceInterceptor = null;
-    mUserTrackAdapter = null;
-    mScrollView = null;
-    mContext = null;
-    mRenderListener = null;
-    isDestroy=true;
   }
 
   public boolean isDestroy(){
     return isDestroy;
   }
 
-  public String getBundleUrl() {
+  /**
+   * @return If you use render () the return value may be empty
+   */
+  public @Nullable String getBundleUrl() {
     return mBundleUrl;
   }
 
@@ -1257,24 +1315,41 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     return mRenderContainer;
   }
 
+  @Deprecated
   public void setBundleUrl(String url){
     mBundleUrl = url;
+    if(WXSDKManager.getInstance().getValidateProcessor()!=null) {
+      mNeedValidate = WXSDKManager.getInstance().getValidateProcessor().needValidate(mBundleUrl);
+    }
   }
 
   public void onRootCreated(WXComponent root) {
     this.mRootComp = root;
     mRenderContainer.addView(root.getHostView());
+    setSize(mRenderContainer.getWidth(),mRenderContainer.getHeight());
   }
 
-  public void addFixedView(View fixedChild){
-    if(mRootComp instanceof WXVContainer){
-      ((WXVContainer)mRootComp).getRealView().addView(fixedChild);
+  /**
+   * Move fixed view to container ,except it's already moved.
+   * @param fixedChild
+   */
+  public void moveFixedView(View fixedChild){
+    if(mRenderContainer != null) {
+      ViewGroup parent;
+      if((parent = (ViewGroup) fixedChild.getParent()) != null){
+        if (parent != mRenderContainer) {
+          parent.removeView(fixedChild);
+          mRenderContainer.addView(fixedChild);
+        }
+      }else{
+        mRenderContainer.addView(fixedChild);
+      }
     }
   }
 
   public void removeFixedView(View fixedChild){
-    if(mRootComp instanceof WXVContainer){
-      ((WXVContainer)mRootComp).getRealView().removeView(fixedChild);
+    if(mRenderContainer != null) {
+      mRenderContainer.removeView(fixedChild);
     }
   }
 
@@ -1307,8 +1382,8 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     if (width < 0 || height < 0 || isDestroy || !mRendered) {
       return;
     }
-    float realWidth = WXViewUtils.getWebPxByWidth(width,getViewPortWidth());
-    float realHeight = WXViewUtils.getWebPxByWidth(height,getViewPortWidth());
+    float realWidth = WXViewUtils.getWebPxByWidth(width,getInstanceViewPortWidth());
+    float realHeight = WXViewUtils.getWebPxByWidth(height,getInstanceViewPortWidth());
 
     View godView = mRenderContainer;
     if (godView != null) {
@@ -1352,8 +1427,18 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
    * @param data
    * @param domChanges
    */
+  public void fireEvent(String elementRef,final String type, final Map<String, Object> data,final Map<String, Object> domChanges, List<Object> eventArgs){
+    WXBridgeManager.getInstance().fireEventOnNode(getInstanceId(),elementRef,type,data,domChanges, eventArgs);
+  }
+  /**
+   * Fire event callback on a element.
+   * @param elementRef
+   * @param type
+   * @param data
+   * @param domChanges
+   */
   public void fireEvent(String elementRef,final String type, final Map<String, Object> data,final Map<String, Object> domChanges){
-    WXBridgeManager.getInstance().fireEventOnNode(getInstanceId(),elementRef,type,data,domChanges);
+       fireEvent(elementRef, type, data, domChanges, null);
   }
 
   public void fireEvent(String elementRef,final String type, final Map<String, Object> data){
@@ -1425,7 +1510,7 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
    * Check whether the current module registered the event
    * @param eventName EventName register in weex
    * @param module Events occur in this Module
-   * @return  register->true
+   * @return  boolean true
    */
   public boolean checkModuleEventRegistered(String eventName,WXModule module) {
     if (module != null) {
@@ -1481,7 +1566,9 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
     private Map<String, Object> options;
     private String jsonInitData;
     private WXRenderStrategy flag;
+    private WXSDKInstance instance;
     private long startRequestTime;
+    private int traceId;
 
     private WXHttpListener(String pageName, Map<String, Object> options, String jsonInitData, WXRenderStrategy flag, long startRequestTime) {
       this.pageName = pageName;
@@ -1489,17 +1576,36 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
       this.jsonInitData = jsonInitData;
       this.flag = flag;
       this.startRequestTime = startRequestTime;
-    }
+      this.traceId = WXTracing.nextId();
 
+      if (WXTracing.isAvailable()) {
+        WXTracing.TraceEvent event = WXTracing.newEvent("downloadBundleJS", mInstanceId, -1);
+        event.iid = mInstanceId;
+        event.tname = "Network";
+        event.ph = "B";
+        event.traceId = traceId;
+        event.submit();
+      }
+    }
+    
+    public void setSDKInstance(WXSDKInstance instance) {
+      this.instance = instance;
+    }
 
     @Override
     public void onHttpStart() {
-
+      if (this.instance != null
+          && this.instance.getWXStatisticsListener() != null) {
+        this.instance.getWXStatisticsListener().onHttpStart();
+      }
     }
 
     @Override
     public void onHeadersReceived(int statusCode,Map<String,List<String>> headers) {
-
+      if (this.instance != null
+          && this.instance.getWXStatisticsListener() != null) {
+        this.instance.getWXStatisticsListener().onHeadersReceived();
+      }
     }
 
     @Override
@@ -1514,6 +1620,22 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
 
     @Override
     public void onHttpFinish(WXResponse response) {
+      if (this.instance != null
+          && this.instance.getWXStatisticsListener() != null) {
+        this.instance.getWXStatisticsListener().onHttpFinish();
+      }
+
+      if (WXTracing.isAvailable()) {
+        WXTracing.TraceEvent event = WXTracing.newEvent("downloadBundleJS", mInstanceId, -1);
+        event.traceId = traceId;
+        event.tname = "Network";
+        event.ph = "E";
+        event.extParams = new HashMap<>();
+        if (response != null && response.originalData != null) {
+          event.extParams.put("BundleSize", response.originalData.length);
+        }
+        event.submit();
+      }
 
       mWXPerformance.networkTime = System.currentTimeMillis() - startRequestTime;
       if(response.extendParams!=null){
@@ -1558,7 +1680,9 @@ public class WXSDKInstance implements IWXActivityStateListener,DomContext, View.
           }else {
             performance.errCode=WXErrorCode.WX_SUCCESS.getErrorCode();
           }
-          mUserTrackAdapter.commit(getContext(),null,IWXUserTrackAdapter.JS_DOWNLOAD,performance,null);
+          if (mUserTrackAdapter != null) {
+            mUserTrackAdapter.commit(getContext(), null, IWXUserTrackAdapter.JS_DOWNLOAD, performance, null);
+          }
         }
       }
       WXLogUtils.renderPerformanceLog("networkTime", mWXPerformance.networkTime);

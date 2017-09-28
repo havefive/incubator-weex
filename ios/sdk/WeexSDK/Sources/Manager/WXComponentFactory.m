@@ -1,24 +1,27 @@
-/**
- * Created by Weex.
- * Copyright (c) 2016, Alibaba, Inc. All rights reserved.
- *
- * This source code is licensed under the Apache Licence 2.0.
- * For the full copyright and license information,please view the LICENSE file in the root directory of this source tree.
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
 
 #import "WXComponentFactory.h"
 #import "WXAssert.h"
 #import "WXLog.h"
-#import "WXInvocationConfig.h"
 
 #import <objc/runtime.h>
-
-@interface WXComponentConfig : WXInvocationConfig
-@property (nonatomic, strong) NSDictionary *properties;
-
-- (instancetype)initWithName:(NSString *)name class:(NSString *)clazz pros:(NSDictionary *)pros;
-
-@end
 
 @implementation WXComponentConfig
 
@@ -71,7 +74,17 @@
 
 + (Class)classWithComponentName:(NSString *)name
 {
-    return [[self sharedInstance] classWithComponentName:name];
+    WXComponentConfig *config = [self configWithComponentName:name];
+    if(!config || !config.clazz) {
+        return nil;
+    }
+    
+    return NSClassFromString(config.clazz);
+}
+
++ (WXComponentConfig *)configWithComponentName:(NSString *)name
+{
+    return [[self sharedInstance] configWithComponentName:name];
 }
 
 + (void)registerComponent:(NSString *)name withClass:(Class)clazz withPros:(NSDictionary *)pros
@@ -103,6 +116,11 @@
     return [[self sharedInstance] _componentMethodMapsWithName:name];
 }
 
++ (NSMutableDictionary *)componentSelectorMapsWithName:(NSString *)name
+{
+    return [[self sharedInstance] _componentSelectorMapsWithName:name];
+}
+
 #pragma mark Private
 
 - (NSMutableDictionary *)_componentMethodMapsWithName:(NSString *)name
@@ -116,6 +134,24 @@
     WXComponentConfig *config = _componentConfigs[name];
     void (^mBlock)(id, id, BOOL *) = ^(id mKey, id mObj, BOOL * mStop) {
         [methods addObject:mKey];
+    };
+    [config.asyncMethods enumerateKeysAndObjectsUsingBlock:mBlock];
+    [_configLock unlock];
+    
+    return dict;
+}
+
+- (NSMutableDictionary *)_componentSelectorMapsWithName:(NSString *)name
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    NSMutableArray *methods = [NSMutableArray array];
+    
+    [_configLock lock];
+    [dict setValue:methods forKey:@"methods"];
+    
+    WXComponentConfig *config = _componentConfigs[name];
+    void (^mBlock)(id, id, BOOL *) = ^(id mKey, id mObj, BOOL * mStop) {
+        [methods addObject:mObj];
     };
     [config.asyncMethods enumerateKeysAndObjectsUsingBlock:mBlock];
     [_configLock unlock];
@@ -161,9 +197,9 @@
     return componentDic;
 }
 
-- (Class)classWithComponentName:(NSString *)name
+- (WXComponentConfig *)configWithComponentName:(NSString *)name
 {
-    WXAssert(name, @"Can not find class for a nil component name");
+    WXAssert(name, @"Can not find config for a nil component name");
     
     WXComponentConfig *config = nil;
     
@@ -175,11 +211,7 @@
     }
     [_configLock unlock];
     
-    if(!config || !config.clazz) {
-        return nil;
-    }
-    
-    return NSClassFromString(config.clazz);
+    return config;
 }
 
 - (void)registerComponent:(NSString *)name withClass:(Class)clazz withPros:(NSDictionary *)pros

@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import chai from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
@@ -53,14 +71,14 @@ describe('bind and fire events', () => {
     const vm = new Vm('foo', customComponentMap.foo, { _app: app })
 
     checkReady(vm, function () {
-      expect(doc.body.event.click).a('function')
+      expect(doc.body.event.click.handler).a('function')
 
       const el = doc.body
       expect(el.attr.a).eql(1)
       expect(spy.args.length).eql(1)
       expect(doc.listener.updates.length).eql(0)
 
-      el.event.click({ xxx: 1 })
+      el.event.click.handler({ xxx: 1 })
       expect(el.attr.a).eql(2)
       expect(spy.args.length).eql(2)
       expect(spy.args[1][0]).eql([

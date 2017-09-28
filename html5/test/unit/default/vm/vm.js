@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 import chai from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
@@ -6,7 +24,7 @@ chai.use(sinonChai)
 
 import Vm from '../../../../frameworks/legacy/vm'
 import { Document } from '../../../../runtime/vdom'
-import { init as resetTaskHandler } from '../../../../runtime/task-center'
+import { init as resetTaskHandler } from '../../../../runtime/bridge/TaskCenter'
 import Differ from '../../../../frameworks/legacy/app/differ'
 
 const oriCallNative = global.callNative
@@ -1025,7 +1043,7 @@ describe('generate virtual dom for sub vm', () => {
     expect(sub.event.click).is.a.function
 
     const spy = customComponentMap.foo.methods.handleClick
-    sub.event.click(1, 2, 3)
+    sub.event.click.handler(1, 2, 3)
     expect(spy.args.length).eql(1)
     expect(spy.args[0]).eql([1, 2, 3])
 
@@ -1640,7 +1658,7 @@ describe('generate dom actions', () => {
     expect(doc.body.event.click).is.a.function
     expect(handler.args.length).eql(0)
     doc.body.fireEvent('click')
-    expect(handler.args.length).eql(1)
+    expect(handler.args.length).eql(0)
   })
 
   it('received actions for a template with if & repeat', () => {

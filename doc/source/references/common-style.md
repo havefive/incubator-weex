@@ -36,7 +36,6 @@ you can use the definition below in weex box model.
     - `border-right-style`: values `solid` | `dashed` | `dotted`, default value `solid`
     - `border-bottom-style`: values `solid` | `dashed` | `dotted`, default value `solid`
   - `border-width`: `length` type, non-negative, default value `0`
-    **DO NOT** use `border-width:1`. There is a default viewport `<viewport width="750">`, if the actual width of a device is 720px, then `border-width:1` will be `border-width:0.96`. As weex **do not** support sub-pixel, this border would not be rendered.
     - `border-left-width`: `length` type, non-negative, default value `0`
     - `border-top-width`: `length` type, non-negative, default value `0`
     - `border-right-width`: `length` type, non-negative, default value `0`
@@ -47,18 +46,23 @@ you can use the definition below in weex box model.
     - `border-right-color`: `color` type, default value `#000000`
     - `border-bottom-color`: `color` type, default value `#000000`
   - `border-radius`: `length` type, default value `0`, (rounded borders to elements , default value is 0 meaning right angle )
-
-  Although the the default overflow style is `overflow:hidden` in android, a view will not be clipped by its parents' `border-radius`. This only happens on Android, it works fine on iOS.
     - `border-bottom-left-radius`: `length` type, non-negative, default value `0`
     - `border-bottom-right-radius`: `length` type, non-negative, default value `0`
     - `border-top-left-radius`: `length` type, non-negative, default value `0`
     - `border-top-right-radius`: `length` type, non-negative, default value `0`
 
-Notes: The rule of border-radius for a specific corner such as `border-top-left-radius` is not currently supported for component `<image>` and `<text>`.
-
+### Notes
 Weex box model uses `border-box` as the default value of `box-sizing`, meaning the width and height properties includes content, padding and border, but not the margin.
 
-example:
+The rule of border-radius for a specific corner such as `border-top-left-radius` is not currently supported for component `<image>`in iOS. This only happens to iOS, it works fine on Android.
+
+Although `overflow:hidden` is default on android, a view **will not** clip its children according to `border-radius` unless all the following condtions met. This only happens on Android, it works fine on iOS.
+* The view type is `div`, `a`, `cell`, `refresh` or `loading`.
+* OS version is Android 4.3 or higher.
+* OS version is **not** Andorid 7.0
+* A view **does not** have `background-image` property nor OS version is Android 5.0 or higher.
+
+### Example
 
 ```html
 <template>
@@ -186,6 +190,104 @@ we can use properties below to control placement of weex tag
 </template>
 ```
 
+## transform
+
+The CSS **transform** property lets you modify the coordinate space of the CSS visual formatting model. Using it, elements can be translated, rotated and scaled.
+
+Currently supported format:
+
+* translate( <number/percentage> [, <number/percentage>]?)
+* translateX( <number/percentage> )
+* translateY( <number/percentage> )
+* scale( <number>)
+* scaleX( <number> )
+* scaleY( <number> )
+* rotate( <angle/degree> )
+* rotateX( <angle/degree> ) <span class="api-version">v0.14+</span>
+* rotateY( <angle/degree> ) <span class="api-version">v0.14+</span>
+* perspective( <number> ), supported for Android 4.1 and above. <span class="api-version">v0.16+</span>
+* transform-origin: number/percentage/keyword(top/left/right/bottom)
+
+### Example
+
+```HTML
+<template>
+  <div class="wrapper">
+    <div class="transform">
+     <text class="title">Transformed element</text>
+    </div>
+  </div>
+</template>
+
+<style>
+  .transform {
+    align-items: center; 
+    transform: translate(150px,200px) rotate(20deg);
+    transform-origin: 0 -250px;
+    border-color:red;
+    border-width:2px;
+  }
+  .title {font-size: 48px;}
+</style>
+```
+
+## transition <span class="api-version">v0.16.0+</span>
+
+Now you can use the transition attribute in CSS to enhance the interactivity and visual experience of your application. The transition includes the layout animation, that is, LayoutAnimation, which now changes the layout and uses the fluent animation of the transition. Transition allows the CSS attribute values to transition smoothly over a certain time interval.
+
+### Property
+
+- ``transition-property``:Allows the name of the transitional animation to set the value of the different styles transition effect, the default value is empty, that does not perform any transition, the following table lists all the legitimate parameters of the property:
+
+| Property        | Description                              |
+| --------------- | ---------------------------------------- |
+| width           | The transition is performed when the width of the component is involved in the animation |
+| height          | The transition is performed when the height of the component is involved in the animation |
+| top             | The transition is performed when the top of the component is involved in the animation |
+| bottom          | The transition is performed when the bottom of the component is involved in the animation |
+| left            | The transition is performed when the left of the component is involved in the animation |
+| right           | The transition is performed when the right of the component is involved in the animation |
+| backgroundColor | The transition is performed when the backgroundColor of the component is involved in the animation |
+| opacity         | The transition is performed when the opacity of the component is involved in the animation |
+| transform       | The transition is performed when the transform of the component is involved in the animation |
+
+- ``transition-duration``:Specifies the duration of the transition transition (in milliseconds). The default value is 0, indicating that there is no animation.
+
+- ``transition-delay``:Specifies the time interval (in milliseconds or seconds) between the request transition transition and the transition transition. The default value is 0, indicating that there is no delay, and the transition transition is performed immediately after the request.
+
+- ``transition-timing-function``:Describes the velocity curve of the transition transition, which is used to make the transition transition smoother. The default is ease. The following table lists all the valid attributes:
+
+| Property                       | Description                              |
+| ------------------------------ | ---------------------------------------- |
+| ease                         | The transition gradually slow down the transition effect |
+| ease-in                      | The transition starts slowly and then becomes faster for the transition effect |
+| ease-out                     | The transition starts quickly and then slows the transition effect |
+| ease-in-out                  | The transition starts slowly, then goes fast and then slowly ends the transition effect |
+| linear                       | The transition changes at constant speed |
+| cubic-bezier(x1, y1, x2, y2) | Using the custom transition in the third-order Bessel function, the parameter values of the function must be between 0 and 1. For more information on three times Bessel, see [cubic-bezier](http://cubic-bezier.com/) and [Bézier curve](https://en.wikipedia.org/wiki/B%C3%A9zier_curve). |
+
+### Example
+
+```html
+<style scoped>
+    .panel {
+        margin: 10px;
+        top:10px;
+        align-items: center;
+        justify-content: center;
+        border: solid;
+        border-radius: 10px; 
+          
+        transition-property: width,height,backgroundColor;  
+        transition-duration: 0.3s; 
+        transition-delay: 0s;
+        transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1.0); 
+    }
+</style>
+```
+
+
+
 ## Pseudo class <span class="api-version">v0.9.5+</span>
 
 Weex support four pseudo-classes: `active`, `focus`, `disabled`, `enabled`
@@ -213,19 +315,19 @@ All components support `active`, but only the input component and the textarea c
 
 <style scoped>
   .wrapper {
-    align-items: center; 
+    align-items: center;
     margin-top: 120px;
   }
   .title {
     font-size: 48px;
   }
   .logo {
-    width: 360px; 
+    width: 360px;
     height: 82px;
     background-color: red;
   }
   .logo:active {
-    width: 180px; 
+    width: 180px;
     height: 82px;
     background-color: green;
   }
@@ -270,19 +372,19 @@ background-image: linear-gradient(to top,#a80077,#66ff00);
 
 `radial-gradient` is not currently supported, do not use it.
 
-Weex currently supports two color gradients. The direction of the gradient is as follows: 
+Weex currently supports two color gradients. The direction of the gradient is as follows:
 
 * to right
   From left to right
-* to left 
+* to left
   From right to left
-* to bottom 
+* to bottom
   From top to bottom
-* to top 
+* to top
   From bottom to top
-* to bottom right 
+* to bottom right
   From the upper left corner to the lower right corner
-* to top left 
+* to top left
   From the lower right corner to the upper left corner
 
 ### Note
@@ -344,6 +446,59 @@ Weex currently supports two color gradients. The direction of the gradient is as
   }
 </style>
 ```
+
+## box-shadow <span class="api-version">v0.11+</span>
+
+Weex supports box-shadow in iOS： `inset`,`offset-x`,`offset-y`, `blur-radius`,`color`
+
+
+### Note
+
+- box-shadow takes effect in iOS
+
+### Example
+
+```html
+<template>
+  <div class="wrapper">
+    <div style="width:400px; height:60px;background-color: #FFE4C4; box-shadow:20px  10px rgb(255, 69, 0);">
+      <text class="title" style="text-align: center">Hello {{target}}</text>
+    </div>
+    <div style="margin-top: 80px;width:400px; height:60px;background-color: #FFE4C4; box-shadow: 20px  10px 5px rgba(255, 69, 0, 0.8);">
+      <text class="title" style="text-align: center">Hello {{target}}</text>
+    </div>
+    <div style="margin-top: 80px;width:400px; height:60px;background-color: #FFE4C4; box-shadow:inset 20px  10px 5px rgba(255, 69, 0, 0.8);">
+      <text class="title" style="text-align: center">Hello {{target}}</text>
+    </div>
+    <div style="margin-top: 80px;width:400px; height:60px;background-color: #FFE4C4; box-shadow:inset 20px  10px 5px rgb(255, 69, 0);">
+      <text class="title" style="text-align: center">Hello {{target}}</text>
+    </div>
+    <div style="margin-top: 80px;width:400px; height:60px;background-color: #FFE4C4; box-shadow:20px  10px 5px black;">
+      <text class="title" style="text-align: center">Hello {{target}}</text>
+    </div>
+    <div style="margin-top: 80px;width:400px; height:60px;background-color: #FFE4C4; box-shadow:20px  10px 5px #008B00;">
+      <text class="title" style="text-align: center">Hello {{target}}</text>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+  .wrapper {align-items: center; margin-top: 120px;}
+  .title {font-size: 48px;}
+</style>
+
+<script>
+  module.exports = {
+    data: function () {
+      return {
+        logoUrl: 'https://alibaba.github.io/weex/img/weex_logo_blue@3x.png',
+        target: 'World'
+      };
+    }
+  };
+</script>
+```
+
 
 ## Other Common Style
 
