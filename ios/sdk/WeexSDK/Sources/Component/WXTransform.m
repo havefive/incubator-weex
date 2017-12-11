@@ -22,6 +22,7 @@
 #import "WXLength.h"
 #import "WXUtility.h"
 #import "WXSDKInstance.h"
+#import "WXConvert.h"
 
 @interface WXTransform()
 
@@ -174,7 +175,7 @@
     CATransform3D nativeTansform3D = CATransform3DIdentity;
     
     if (_perspective && !isinf(_perspective)) {
-        nativeTansform3D.m34 = -1.0/_perspective*[UIScreen mainScreen].scale;
+        nativeTansform3D.m34 = -1.0/_perspective;
     }
     if (!view || view.bounds.size.width <= 0 || view.bounds.size.height <= 0) {
         return nativeTansform3D;
@@ -311,7 +312,6 @@
             }
         }
     }
-    
     _originX = [WXLength lengthWithFloat:originX type:typeX];
     _originY = [WXLength lengthWithFloat:originY type:typeY];
 }
@@ -339,13 +339,19 @@
 
 - (void)parsePerspective:(NSArray *)value
 {
-    _perspective = [value[0] doubleValue];
+    _perspective = [WXConvert WXPixelType:value[0] scaleFactor:self.weexInstance.pixelScaleFactor];
     if (_perspective <= 0 ) {
         _perspective = CGFLOAT_MAX;
     }
 }
 
 - (void)parseTranslate:(NSArray *)value
+{
+    [self parseTranslatex:@[value[0]]];
+    [self parseTranslatey:@[value[1]]];
+}
+
+- (void)parseTranslatex:(NSArray *)value
 {
     WXLength *translateX;
     double x = [value[0] doubleValue];
@@ -355,30 +361,20 @@
         x = WXPixelScale(x, self.weexInstance.pixelScaleFactor);
         translateX = [WXLength lengthWithFloat:x type:WXLengthTypeFixed];
     }
-
-    WXLength *translateY;
-    if (value.count > 1) {
-        double y = [value[1] doubleValue];
-        if ([value[1] hasSuffix:@"%"]) {
-            translateY = [WXLength lengthWithFloat:y type:WXLengthTypePercent];
-        } else {
-            y = WXPixelScale(y, self.weexInstance.pixelScaleFactor);
-            translateY = [WXLength lengthWithFloat:y type:WXLengthTypeFixed];
-        }
-    }
-    
     _translateX = translateX;
-    _translateY = translateY;
-}
-
-- (void)parseTranslatex:(NSArray *)value
-{
-    [self parseTranslate:@[value[0], @"0"]];
 }
 
 - (void)parseTranslatey:(NSArray *)value
 {
-    [self parseTranslate:@[@"0", value[0]]];
+    WXLength *translateY;
+    double y = [value[0] doubleValue];
+    if ([value[0] hasSuffix:@"%"]) {
+        translateY = [WXLength lengthWithFloat:y type:WXLengthTypePercent];
+    } else {
+        y = WXPixelScale(y, self.weexInstance.pixelScaleFactor);
+        translateY = [WXLength lengthWithFloat:y type:WXLengthTypeFixed];
+    }
+    _translateY = translateY;
 }
 
 - (void)parseScale:(NSArray *)value

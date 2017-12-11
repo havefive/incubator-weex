@@ -63,6 +63,21 @@ typedef enum : NSUInteger {
 
 - (void)setContentOffset:(CGPoint)contentOffset
 {
+    // FIXME: side effect caused by hooking _adjustContentOffsetIfNecessary.
+    // When UICollectionView is pulled down and finger releases，contentOffset will be set from -xxxx to about -0.5(greater than -0.5), then contentOffset will be reset to zero by calling _adjustContentOffsetIfNecessary.
+    // So hooking _adjustContentOffsetIfNecessary will always cause remaining 1px space between list's top and navigator.
+    // Demo: http://dotwe.org/895630945793a9a044e49abe39cbb77f
+    // Have to reset contentOffset to zero manually here.
+    if (fabs(contentOffset.y) < 0.5) {
+        contentOffset.y = 0;
+    }
+    if (isnan(contentOffset.x)) {
+        contentOffset.x = 0;
+    }
+    if(isnan(contentOffset.y)) {
+        contentOffset.y = 0;
+    }
+    
     [super setContentOffset:contentOffset];
 }
 
@@ -173,13 +188,6 @@ typedef enum : NSUInteger {
     
     _dragController.dragingCell = [[WXCollectionViewCell alloc] initWithFrame:CGRectMake(0, 0, 100, 100/2.0f)];
     _dragController.collectionView = _collectionView;
-#ifdef __IPHONE_11_0
-    if (@available(iOS 11.0, *)) {
-        _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    } else {
-        // Fallback on earlier versions
-    }
-#endif
     
     [self performUpdatesWithCompletion:^(BOOL finished) {
         
